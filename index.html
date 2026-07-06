@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>100 Reels через Claude | viktorflow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-400: #aaa;
+      --gray-600: #666;
+      --accent: #0f0f0f;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 80px 0 72px;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      max-width: 680px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gray-400);
+    }
+    .hero p {
+      font-size: 17px;
+      color: #888;
+      max-width: 520px;
+      line-height: 1.65;
+    }
+
+    /* ─── PRODUCTS ─── */
+    .products {
+      padding: 72px 0 80px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 36px;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+    @media (max-width: 640px) {
+      .products-grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--gray-100);
+      border-radius: var(--radius);
+      padding: 36px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .card.featured {
+      background: var(--black);
+      color: var(--white);
+    }
+    .card-tag {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: none;
+      color: var(--gray-400);
+      margin-bottom: 16px;
+    }
+    .card.featured .card-tag {
+      color: #666;
+    }
+    .card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .card .desc {
+      font-size: 14px;
+      color: var(--gray-600);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .card.featured .desc {
+      color: #777;
+    }
+    .card ul {
+      list-style: none;
+      margin-bottom: 28px;
+      flex: 1;
+    }
+    .card ul li {
+      font-size: 14px;
+      color: var(--gray-600);
+      padding: 5px 0;
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .card ul li:last-child { border-bottom: none; }
+    .card.featured ul li {
+      color: #888;
+      border-bottom-color: #1e1e1e;
+    }
+    .card ul li::before {
+      content: '✓';
+      font-size: 13px;
+      color: var(--gray-400);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .card.featured ul li::before {
+      color: #444;
+    }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .price-main {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .price-note {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+    .card.featured .price-note {
+      color: #555;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-light {
+      background: var(--black);
+      color: var(--white);
+    }
+    .btn-dark {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--gray-100);
+      padding: 56px 0 48px;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .footer-brand-sub {
+      font-size: 13px;
+      color: var(--gray-600);
+    }
+    .footer-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .footer-contacts a {
+      font-size: 14px;
+      color: var(--gray-600);
+      text-decoration: none;
+    }
+    .footer-contacts a:hover { color: var(--black); }
+
+    .footer-legal {
+      border-top: 1px solid var(--gray-200);
+      padding-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    details {
+      border-bottom: 1px solid var(--gray-200);
+    }
+    details:first-of-type {
+      border-top: 1px solid var(--gray-200);
+    }
+    summary {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-600);
+      padding: 14px 0;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: '+';
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--gray-400);
+      transition: transform 0.2s;
+    }
+    details[open] summary::after {
+      transform: rotate(45deg);
+    }
+    details[open] summary {
+      color: var(--black);
+    }
+    .legal-body {
+      padding: 4px 0 24px;
+    }
+    .legal-body h4 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-400);
+      margin-top: 20px;
+      margin-bottom: 6px;
+    }
+    .legal-body h4:first-child { margin-top: 0; }
+    .legal-body p {
+      font-size: 13px;
+      color: var(--gray-600);
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+
+    .footer-bottom {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag">viktorflow</div>
+    <h1>Создавай свой flow</h1>
+    <p>Доступ навсегда.</p>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products">
+  <div class="container">
+    <div class="section-label">Продукты</div>
+    <div class="products-grid">
+
+      <!-- СИСТЕМА (featured) -->
+      <div class="card featured">
+        <div class="card-tag">Reels Flow</div>
+        <h2>100 Reels за 30 минут через Claude</h2>
+        <p class="desc">Система автоматического создания вирусных Reels с текстовыми хуками. Без монтажёра и ежедневной ручной работы.</p>
+        <ul>
+          <li>Научимся создавать хуки</li>
+          <li>Готовый скрипт</li>
+          <li>Покажу где брать исходники</li>
+          <li>Настроим автопубликацию</li>
+        </ul>
+        <div class="price-row">
+          <span class="price-main">3 000 ₽</span>
+          <span class="price-note">единоразово</span>
+        </div>
+        <a href="#" class="btn btn-dark">Купить →</a>
+      </div>
+
+      <!-- ГЕНЕРАТОР -->
+      <div class="card">
+        <div class="card-tag">Генератор</div>
+        <h2>Создавай свои промты,<br>а не сохраняй чужие</h2>
+        <p class="desc">Превращает любой слабый промт в чёткое задание для ChatGPT, Claude или Gemini — за 30 секунд.</p>
+        <ul>
+          <li>Любые задачи: контент, текст, анализ, код</li>
+          <li>Экономия кредитов</li>
+          <li>Меньше итераций и исправлений</li>
+          <li>Точнее ответы, быстрее результат</li>
+          <li>Доступ сразу после оплаты</li>
+        </ul>
+        <div class="price-row">
+          <span class="price-main">1 000 ₽</span>
+          <span class="price-note">единоразово</span>
+        </div>
+        <a href="#" class="btn btn-light">Купить →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">viktorflow</div>
+        <div class="footer-brand-sub">Мельников Виктор Анатольевич<br>ИНН: 701745744246</div>
+      </div>
+      <div class="footer-contacts">
+        <a href="mailto:mlvktr@yandex.ru">mlvktr@yandex.ru</a>
+        <a href="https://t.me/vktrflow">t.me/vktrflow</a>
+        <a href="https://instagram.com/vktrflow">instagram.com/vktrflow</a>
+      </div>
+    </div>
+
+    <!-- Юридика — свёртываемые блоки -->
+    <div class="footer-legal">
+
+      <details>
+        <summary>Условия оказания услуг — «100 Reels за 30 минут через Claude»</summary>
+        <div class="legal-body">
+          <h4>1. Описание товара</h4>
+          <p>Цифровой информационный продукт «100 Reels за 30 минут через Claude» — обучающие материалы в электронном виде: PDF-руководство, набор текстовых файлов и скрипт автоматизации.</p>
+          <h4>2. Цена</h4>
+          <p>Стоимость продукта: 3 000 (три тысячи) рублей. Цена окончательная, НДС не облагается (самозанятый).</p>
+          <h4>3. Оформление заказа</h4>
+          <p>Заказ оформляется на данной странице нажатием кнопки оплаты. Подтверждение заказа не требуется — оплата является акцептом оферты.</p>
+          <h4>4. Способы оплаты</h4>
+          <p>Оплата производится через платёжный сервис Робокасса: банковская карта (Visa, MasterCard, МИР), Система быстрых платежей (СБП), электронные кошельки.</p>
+          <h4>5. Доставка</h4>
+          <p>Продукт является цифровым. После успешной оплаты материалы автоматически отправляются на e-mail, указанный при оплате, в течение 15 минут. Также доступ может быть предоставлен через личное сообщение — напишите нам после оплаты.</p>
+          <h4>6. Возврат</h4>
+          <p>До получения материалов: вы можете отказаться от покупки в течение 24 часов с момента оплаты. Для этого напишите на mlvktr@yandex.ru с темой «Возврат» и укажите номер платежа. Обращение рассматривается в течение 3 рабочих дней. Возврат денежных средств производится в полном размере оплаченной суммы без каких-либо вычетов на реквизиты, с которых была совершена оплата, в срок не более 10 рабочих дней с момента одобрения заявки. После передачи цифрового продукта возврат не производится в соответствии с п. 4 ст. 26.1 Закона РФ «О защите прав потребителей».</p>
+          <h4>7. Контакты</h4>
+          <p>E-mail: mlvktr@yandex.ru · Telegram: t.me/vktrflow</p>
+          <h4>8. Реквизиты</h4>
+          <p>Самозанятый: Мельников Виктор Анатольевич · ИНН: 701745744246</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Условия оказания услуг — Улучшатель промтов «ГЕНЕРАТОР»</summary>
+        <div class="legal-body">
+          <h4>1. Описание товара</h4>
+          <p>Цифровой продукт «ГЕНЕРАТОР» — доступ к нейросетевому боту для улучшения промтов. Бот превращает любое размытое задание в чёткий профессиональный промт для работы с ChatGPT, Claude, Gemini и другими ИИ-инструментами. Доступ предоставляется в виде ссылки.</p>
+          <h4>2. Цена</h4>
+          <p>Стоимость продукта: 1 000 (одна тысяча) рублей. Цена окончательная, НДС не облагается (самозанятый).</p>
+          <h4>3. Оформление заказа</h4>
+          <p>Заказ оформляется на данной странице нажатием кнопки оплаты. Оплата является акцептом оферты.</p>
+          <h4>4. Способы оплаты</h4>
+          <p>Оплата производится через платёжный сервис Робокасса: банковская карта (Visa, MasterCard, МИР), Система быстрых платежей (СБП), электронные кошельки.</p>
+          <h4>5. Доставка</h4>
+          <p>Продукт является цифровым. После успешной оплаты ссылка на доступ к боту отправляется на e-mail, указанный при оплате, в течение 15 минут. Также ссылка может быть передана через личное сообщение — напишите нам после оплаты.</p>
+          <h4>6. Возврат</h4>
+          <p>До передачи ссылки: вы можете отказаться от покупки в течение 24 часов с момента оплаты. Для этого напишите на mlvktr@yandex.ru с темой «Возврат» и укажите номер платежа. Обращение рассматривается в течение 3 рабочих дней. Возврат денежных средств производится в полном размере оплаченной суммы без каких-либо вычетов на реквизиты, с которых была совершена оплата, в срок не более 10 рабочих дней с момента одобрения заявки. После передачи ссылки на доступ возврат не производится в соответствии с п. 4 ст. 26.1 Закона РФ «О защите прав потребителей».</p>
+          <h4>7. Контакты</h4>
+          <p>E-mail: mlvktr@yandex.ru · Telegram: t.me/vktrflow</p>
+          <h4>8. Реквизиты</h4>
+          <p>Самозанятый: Мельников Виктор Анатольевич · ИНН: 701745744246</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>Политика обработки персональных данных</summary>
+        <div class="legal-body">
+          <h4>Оператор</h4>
+          <p>Самозанятый Мельников Виктор Анатольевич, ИНН: 701745744246</p>
+          <h4>Какие данные собираются</h4>
+          <p>Имя и фамилия, адрес электронной почты, данные, переданные при оплате (обрабатываются платёжным сервисом Робокасса).</p>
+          <h4>Цели обработки</h4>
+          <p>Исполнение договора (передача приобретённого продукта), ответы на обращения и вопросы.</p>
+          <h4>Хранение</h4>
+          <p>Персональные данные хранятся в течение срока, необходимого для исполнения договора, и не более 3 лет после его завершения.</p>
+          <h4>Передача третьим лицам</h4>
+          <p>Данные не передаются третьим лицам, за исключением платёжного сервиса Робокасса — в объёме, необходимом для проведения платежа.</p>
+          <h4>Права пользователя</h4>
+          <p>Вы вправе запросить удаление, исправление или получение копии своих данных, написав на mlvktr@yandex.ru.</p>
+          <h4>Согласие</h4>
+          <p>Оформляя заказ, вы соглашаетесь с настоящей политикой обработки персональных данных.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="footer-bottom">© 2026 viktorflow · Все материалы являются цифровыми продуктами</div>
+  </div>
+</footer>
+
+</body>
+</html>
